@@ -25,12 +25,13 @@
 
 .content__option-subtitle {
   width: 380px;
+  /* font-weight: bold; */
 }
 
 .container__img .content__option .content__option-title {
   /* font-weight: bold; */
   -webkit-text-stroke: 1px rgb(142, 142, 142);
   color: #fff;
-  font-size: 40px;
+  font-size: 55px;
   /* color: #000; */
 }
