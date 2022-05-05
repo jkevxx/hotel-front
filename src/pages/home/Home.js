@@ -1,9 +1,10 @@
 import React from 'react'
-import { ThemeProvider, Typography, Button } from '@mui/material'
+import { ThemeProvider } from '@mui/material'
 import theme from '../../theme'
 
 // Components
 import NavBarUser from '../../components/user/navBar/NavBarUser'
+import BodyUser from '../../components/user/container/BodyUser'
 
 function Home() {
   return (
@@ -14,6 +15,7 @@ function Home() {
         <Typography sx={{ color: "#a21" }} >This is the page home</Typography> */}
       </ThemeProvider>
       <NavBarUser />
+      <BodyUser />
     </>
   )
 }
