@@ -2,8 +2,9 @@ import React from 'react'
 import { ThemeProvider, AppBar, Button, Toolbar, Typography } from '@mui/material'
 // import { styled } from '@mui/material/styles';
 import { Box } from '@mui/system';
-
+import { Link } from 'react-router-dom'
 import theme from '../../../theme'
+
 
 
 // const Options = styled('div')(({ theme }) => ({
@@ -48,7 +49,7 @@ function NavBarUser() {
 
               }}
             >
-              <Button color="dark">
+              <Button color="dark" component={Link} to='/about'>
                 About us
               </Button>
               <Button color="dark">

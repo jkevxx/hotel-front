@@ -1,21 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './BodyUserStyle.css'
 import { Box, Grid, FormControl, InputLabel, Select, MenuItem, TextField } from '@mui/material'
 import CardUser from './CardUser'
 
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 const images = {
   room1: 'https://www.hotellastrojes.com.mx/images/galerias/habitacion-sencilla-1533165647.jpg',
-  room2: 'https://www.stanzahotel.com/wp-content/uploads/2020/07/2020_stanza_hotel_habitacion_sencilla_01.jpg'
+  room2: 'https://www.stanzahotel.com/wp-content/uploads/2020/07/2020_stanza_hotel_habitacion_sencilla_01.jpg',
+  room3: 'https://www.ggrasia.com/wp-content/uploads/2015/05/JW-Marriot-hotel-room-Galaxy-Macau-Phase-2-e1432637852679.jpg'
 }
 
-const newWord = {
-  first: 'hi world'
-}
+const typeRooms = [
+  { id: 1, name: 'Basic', },
+  { id: 2, name: 'Junior' },
+  { id: 3, name: 'Suit' }
+]
 
 function BodyUser() {
 
-  console.log(images.room1)
+  const [room, setRom] = useState(images)
+  const [typeRoom, setTypeRoom] = useState(typeRooms)
+  const [value, setValue] = useState(null);
+
   return (
     <main className='container'>
       <section className='container__img'>
@@ -59,14 +68,15 @@ function BodyUser() {
                   id="demo-select-small"
                   // value={age}
                   label="Age"
+                  defaultValue=""
                 // onChange={handleChange}
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={'Junior'}>Junior</MenuItem>
-                  <MenuItem value={'Jumbo'}>Jumbo</MenuItem>
-                  <MenuItem value={'Imperial'}>Imperial</MenuItem>
+                  {typeRoom.map((type, index) => (
+                    <MenuItem value={type.name} key={index}>{type.name}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -79,6 +89,7 @@ function BodyUser() {
                   id="demo-select-small"
                   // value={age}
                   label="Age"
+                  defaultValue=""
                 // onChange={handleChange}
                 >
                   <MenuItem value="">
@@ -93,15 +104,37 @@ function BodyUser() {
               </FormControl>
             </Grid>
 
-            <Grid item xs={2}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <Grid item xs={4}>
+                <DatePicker
+                  id="birthday"
+                  name="birthday"
+                  label="Birthday"
+                  value={value}
+                  onChange={(newValue) => {
+                    setValue(newValue);
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      fullWidth
+                      {...params}
+                    // {...register("birthday")}
+                    // error={!!errors.birthday}
+                    // helperText={errors.birthday ? errors.birthday.message : ""}
+                    />
+                  )}
+                />
+              </Grid>
+            </LocalizationProvider>
+
+            {/* <Grid item xs={2}>
               <FormControl sx={{ m: 1, minWidth: 100 }} size="small" >
-                {/* <InputLabel id="demo-select-small">Type</InputLabel> */}
                 <TextField
                   label="Size"
                   id="outlined-size-small"
                   size="small" />
               </FormControl>
-            </Grid>
+            </Grid> */}
 
           </Grid>
         </Box>
@@ -114,11 +147,30 @@ function BodyUser() {
           justifyContent: 'center',
           alignItems: 'center',
           // flexDirection: 'column',
-          height: '200px',
+          // height: '200px',
         }}
       >
-        <CardUser imgUrl={newWord.first} />
-        {/* <CardUser imgUrl='https://www.stanzahotel.com/wp-content/uploads/2020/07/2020_stanza_hotel_habitacion_sencilla_01.jpg' /> */}
+        <Box component='div'
+          sx={{
+            width: '70vw',
+            marginTop: '50px',
+            // display: 'flex',
+          }}
+        >
+          <Grid container spacing={4}>
+            <Grid item xs={4}>
+              <CardUser img={room.room1} />
+            </Grid>
+            <Grid item xs={4}>
+              <CardUser img={room.room2} />
+            </Grid>
+            <Grid item xs={4}>
+              <CardUser img={room.room3} />
+            </Grid>
+
+          </Grid>
+
+        </Box>
       </Box>
     </main>
   )

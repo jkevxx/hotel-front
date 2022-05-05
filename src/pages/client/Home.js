@@ -3,8 +3,8 @@ import { ThemeProvider } from '@mui/material'
 import theme from '../../theme'
 
 // Components
-import NavBarUser from '../../components/user/navBar/NavBarUser'
-import BodyUser from '../../components/user/container/BodyUser'
+import NavBarUser from '../../components/client/navBar/NavBarUser'
+import BodyUser from '../../components/client/container/BodyUser'
 
 function Home() {
   return (
