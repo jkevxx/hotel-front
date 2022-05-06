@@ -23,7 +23,7 @@ function CardUser({ img }) {
             component="img"
             height="140"
             image={img}
-            alt="green iguana"
+            alt="Hotel"
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
