@@ -49,11 +49,9 @@ function NavBarUser() {
 
               }}
             >
-              <Button color="dark" component={Link} to='/about'>
+              {/* <Button color="dark" component={Link} to='/about'> */}
+              <Button color="dark" component={Link} to='#aboutus  '>
                 About us
-              </Button>
-              <Button color="dark">
-                Gallery
               </Button >
               <Button color="dark">
                 Contact Us

@@ -3,7 +3,19 @@ import React, { useState } from 'react'
 import './BodyUserStyle.css'
 
 // Components
-import { Box, Grid, FormControl, InputLabel, Select, MenuItem, TextField, IconButton } from '@mui/material'
+import {
+  Box,
+  Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+  IconButton,
+  Typography,
+  Button,
+  ThemeProvider
+} from '@mui/material'
 // Components Date
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -14,6 +26,11 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
 // Components
 import CardUser from './CardUser'
+
+import imgAbout from '../../../img/about-img-1.jpg'
+
+import theme from '../../../theme'
+
 
 const images = {
   room1: 'https://www.hotellastrojes.com.mx/images/galerias/habitacion-sencilla-1533165647.jpg',
@@ -37,6 +54,7 @@ function BodyUser() {
   return (
     <>
       <main className='container'>
+
         <section className='container__img'>
           <div className="content">
             <div className="content__option">
@@ -50,6 +68,7 @@ function BodyUser() {
           </div>
         </section>
 
+        {/* Bar search */}
         <Box component='section'
           sx={{
             // width: '90vw',
@@ -162,14 +181,6 @@ function BodyUser() {
                   />
                 </Grid>
               </LocalizationProvider>
-              {/* <Grid item xs={2}>
-              <FormControl sx={{ m: 1, minWidth: 100 }} size="small" >
-                <TextField
-                  label="Size"
-                  id="outlined-size-small"
-                  size="small" />
-              </FormControl>
-            </Grid> */}
               <Grid item xs={1} sx={{ marginLeft: '10px', padding: '2px 0 0 20px' }} >
                 <Box sx={{
                   backgroundColor: '#673ab7',
@@ -186,23 +197,19 @@ function BodyUser() {
 
             </Grid>
           </Box>
-
-
         </Box>
+
+        {/* Rooms */}
         <Box component='section'
           sx={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            // flexDirection: 'column',
-            // height: '200px',
           }}
         >
           <Box component='div'
             sx={{
               width: '80vw',
-              // marginTop: '10px',
-              // display: 'flex',
             }}
           >
             <Grid container spacing={4}>
@@ -215,21 +222,88 @@ function BodyUser() {
               <Grid item xs={4} sx={{ marginTop: '20px' }}>
                 <CardUser img={room.room3} />
               </Grid>
-              <Grid item xs={4} sx={{ marginTop: '20px' }}>
-                <CardUser img={room.room3} />
-              </Grid>
+              <ThemeProvider theme={theme}>
 
+                <Grid item xs={12}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: '40px'
+                  }}
+                >
+                  <Button variant="contained" color='primary'>See more Rooms</Button>
+                </Grid>
+              </ThemeProvider>
             </Grid>
 
           </Box>
         </Box>
+
+        {/* About Us */}
+        <Box component='section'
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            // flexDirection: 'column',
+            // height: '200px',
+            marginTop: '100px',
+          }}
+        >
+          <Box component='div'
+            sx={{
+              width: '80vw',
+              // border: '1px black solid'
+              // marginTop: '10px',
+              // display: 'flex',
+            }}
+          >
+            <Typography variant="h4" component="div">About us</Typography>
+            <Box component="div"
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+              }}
+            >
+              <Typography
+                sx={{
+                  paddingRight: '30px',
+                  width: '40%',
+                }}
+              >
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio ullam, dolorum delectus architecto qui, vero nam nisi, est culpa vel temporibus esse alias voluptatem non officiis quos cupiditate ut minus.
+                <br />
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto eaque odit voluptatem praesentium qui. Sequi eligendi repudiandae accusamus ipsa! Aliquam deserunt commodi perspiciatis necessitatibus aperiam modi laudantium blanditiis optio repellat.
+              </Typography>
+              <img src={imgAbout} alt="about us" />
+            </Box>
+          </Box>
+        </Box>
+
       </main>
 
       <Box component='footer'
         sx={{
-          height: "80px"
+          height: "80px",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
+        <Box component='div'
+          sx={{
+            width: '80vw',
+            // border: '1px black solid'
+            // marginTop: '10px',
+            // display: 'flex',
+          }}
+        >
+          <Typography variant="h4" component="div">
+            Footer
+          </Typography>
+        </Box>
 
       </Box>
     </>
