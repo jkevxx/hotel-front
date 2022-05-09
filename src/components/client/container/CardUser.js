@@ -6,36 +6,50 @@ import {
   CardMedia,
   Button,
   Typography,
-  ThemeProvider
+  ThemeProvider,
 } from '@mui/material'
 import { Link } from 'react-router-dom'
 // import {  } from '@mui/material'
 import theme from '../../../theme'
 
 
-function CardUser({ img }) {
+function CardUser({ img, name, description, price, TypeRoomId }) {
+  // console.log(img)
+  // const newimg = img.map(item => (item.name))
+  // console.log(img[0].name)
 
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Card sx={{ maxWidth: 400 }}>
+        <Card sx={{ maxWidth: 400, maxHeight: 900 }}>
           <CardMedia
             component="img"
             height="140"
-            image={img}
+            image={img[0].name}
             alt="Hotel"
           />
           <CardContent>
+            {/* <Box component='div'
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-around'
+              }}>
+            </Box> */}
             <Typography gutterBottom variant="h5" component="div">
-              Junior
+              {name}
+            </Typography>
+            <Typography gutterBottom variant="h5" component="div" sx={{
+              display: 'flex',
+              justifyContent: 'flex-end'
+            }}>
+              MXN ${price}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Lizards are a widespread group of squamate reptiles, with over 6,000
-              species, ranging across all continents except Antarctica
+              {description}
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small" component={Link} to='/room'>Learn More</Button>
+            <Button size="small" component={Link} to={`/rooms/${TypeRoomId}`}>Learn More</Button>
           </CardActions>
         </Card>
       </ThemeProvider>

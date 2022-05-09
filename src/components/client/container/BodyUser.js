@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 // Styles
-import './BodyUserStyle.css'
+import './BodyUserStyle.css';
+
+// Routes
+import { Link } from 'react-router-dom';
 
 // Components
 import {
@@ -15,7 +18,8 @@ import {
   Typography,
   Button,
   ThemeProvider
-} from '@mui/material'
+} from '@mui/material';
+
 // Components Date
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -27,29 +31,54 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 // Components
 import CardUser from './CardUser'
 
+
 import imgAbout from '../../../img/about-img-1.jpg'
 
 import theme from '../../../theme'
 
-
-const images = {
-  room1: 'https://www.hotellastrojes.com.mx/images/galerias/habitacion-sencilla-1533165647.jpg',
-  room2: 'https://www.stanzahotel.com/wp-content/uploads/2020/07/2020_stanza_hotel_habitacion_sencilla_01.jpg',
-  room3: 'https://www.ggrasia.com/wp-content/uploads/2015/05/JW-Marriot-hotel-room-Galaxy-Macau-Phase-2-e1432637852679.jpg'
+const initialForm = {
+  TypeRoom: '',
+  numPeople: '',
 }
 
-const typeRooms = [
-  { id: 1, name: 'Basic', },
-  { id: 2, name: 'Junior' },
-  { id: 3, name: 'Suit' }
-]
 
 function BodyUser() {
 
-  const [room, setRom] = useState(images)
-  const [typeRoom, setTypeRoom] = useState(typeRooms)
-  const [checkin, setCheckin] = useState(null)
-  const [checkout, setCheckout] = useState(null)
+  const [typeRoom, setTypeRoom] = useState([]);
+  const [photo, setPhoto] = useState([]);
+  const [checkin, setCheckin] = useState(null);
+  const [checkout, setCheckout] = useState(null);
+  const [form, setForm] = useState(initialForm);
+
+
+  const handleChange = (e) => {
+    setForm({
+      ...form, [e.target.name]: e.target.value
+    })
+
+    console.log(form)
+  }
+
+  const getTypeRooms = async () => {
+    let res = await fetch("http://localhost:5000/api/v1/typeRoom");
+    const data = await res.json();
+    // console.log(data)
+    setTypeRoom(data);
+  }
+
+  const getPhoto = async () => {
+    let res = await fetch("http://localhost:5000/api/v1/photo");
+    const data = await res.json();
+    // console.log(data);
+    setPhoto(data)
+  }
+
+  useEffect(() => {
+    getTypeRooms();
+    getPhoto();
+  }, [])
+
+
 
   return (
     <>
@@ -95,16 +124,16 @@ function BodyUser() {
                   <Select
                     labelId="demo-select-small"
                     id="demo-select-small"
-                    // value={age}
-                    label="Age"
+                    name='TypeRoom'
+                    label="Type"
                     defaultValue=""
-                  // onChange={handleChange}
+                    onChange={handleChange}
                   >
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
                     {typeRoom.map((type, index) => (
-                      <MenuItem value={type.name} key={index}>{type.name}</MenuItem>
+                      <MenuItem value={type.id} key={index}>{type.name}</MenuItem>
                     ))}
                   </Select>
                 </FormControl>
@@ -116,10 +145,10 @@ function BodyUser() {
                   <Select
                     labelId="demo-select-small"
                     id="demo-select-small"
-                    // value={age}
-                    label="Age"
+                    name='numPeople'
+                    label="People"
                     defaultValue=""
-                  // onChange={handleChange}
+                    onChange={handleChange}
                   >
                     <MenuItem value="">
                       <em>None</em>
@@ -136,8 +165,8 @@ function BodyUser() {
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Grid item xs={3} sx={{ margin: '0 30px 0 20px ' }}>
                   <DatePicker
-                    id="chekin"
-                    name="chekin"
+                    id="checkin"
+                    name="checkin"
                     label="Check-in"
                     value={checkin}
                     minDate={new Date()}
@@ -161,8 +190,8 @@ function BodyUser() {
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Grid item xs={3} >
                   <DatePicker
-                    id="chekout"
-                    name="chekout"
+                    id="checkout"
+                    name="checkout"
                     label="Check-out"
                     value={checkout}
                     minDate={checkin !== null ? checkin : ''}
@@ -189,7 +218,7 @@ function BodyUser() {
 
                 }}>
 
-                  <IconButton onClick={(e) => { console.log("search") }}>
+                  <IconButton component={Link} to={`/rooms/${form.TypeRoom}`}>
                     <SearchOutlinedIcon fontSize="large" sx={{ color: '#fff' }} />
                   </IconButton>
                 </Box>
@@ -213,15 +242,18 @@ function BodyUser() {
             }}
           >
             <Grid container spacing={4}>
-              <Grid item xs={4} sx={{ marginTop: '20px' }}>
-                <CardUser img={room.room1} />
-              </Grid>
-              <Grid item xs={4} sx={{ marginTop: '20px' }}>
-                <CardUser img={room.room2} />
-              </Grid>
-              <Grid item xs={4} sx={{ marginTop: '20px' }}>
-                <CardUser img={room.room3} />
-              </Grid>
+              {typeRoom.map((item, index) => (
+                <Grid item xs={4} sx={{ marginTop: '20px' }} key={index}>
+                  <CardUser key={index} img={item.Photo} name={item.name} description={item.description} price={item.price} TypeRoomId={item.id} />
+                </Grid>
+                // console.log(item.Photo.name)
+              ))}
+              {/* {photo.map((item, index) => (
+                <Grid item xs={4} sx={{ marginTop: '20px' }} key={index}>
+                  <CardUser key={index} img={item.name} name={item.TypeRoom.name} description={item.TypeRoom.description} price={item.TypeRoom.price} />
+                </Grid>
+                // console.log(item.Photo.name)
+              ))} */}
               <ThemeProvider theme={theme}>
 
                 <Grid item xs={12}
