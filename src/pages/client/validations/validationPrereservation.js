@@ -42,6 +42,25 @@ const schema = yup.object().shape({
     .typeError("It must be a number")
     .positive()
     .integer(),
+  cardNumber: yup
+    .string()
+    .label('Card number')
+    .max(16)
+    .required(),
+  nameOnCard: yup
+    .string()
+    .label('Name on card')
+    .required(),
+  expDate: yup
+    .string()
+    .typeError("Format date invalid")
+    .required('Date is required'),
+  cvc: yup
+    .string()
+    .label('CVC')
+    .min(3)
+    .max(4)
+    .required(),
 });
 
 export default schema;
