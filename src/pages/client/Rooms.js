@@ -8,8 +8,6 @@ import validationPrereservation from "./validations/validationPrereservation";
 import {
   Container,
   Typography,
-  ImageList,
-  ImageListItem,
   Grid,
   TextField,
   Button,
@@ -18,7 +16,15 @@ import {
   Divider
 } from '@mui/material'
 
-import CreditCard from "../../components/client/creditCard/CreditCard";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
+
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import PoolIcon from '@mui/icons-material/Pool';
+import SignalWifi3BarIcon from '@mui/icons-material/SignalWifi3Bar';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import SpaIcon from '@mui/icons-material/Spa';
+import LocalBarIcon from '@mui/icons-material/LocalBar';
 
 
 // Components Date
@@ -106,20 +112,89 @@ function Rooms() {
   return (
     <>
       <Container>
-        <Typography variant="h3">{typeRoom.name}</Typography>
 
-        <ImageList sx={{ width: 900, height: 250 }} cols={3} rowHeight={204}>
+        <Box component='div' sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          margin: '40px 0 30px 0'
+        }}>
+          <Typography variant="h4">{typeRoom.name}</Typography>
+          <Typography variant="h5">MXN ${typeRoom.price}</Typography>
+
+        </Box>
+
+        <Divider sx={{ marginBottom: '30px' }} />
+
+
+        <Carousel width={'50%'} dynamicHeight={true} centerSlidePercentage={true}>
           {photo.map((item, index) => (
-            <ImageListItem key={index}>
-              <img
-                src={`${item.name}?w=164&h=164&fit=crop&auto=format`}
-                srcSet={`${item.name}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                alt={item.id}
-                loading="lazy"
-              />
-            </ImageListItem>
+            <div key={index}>
+              <img src={`${item.name}`} alt={item.id} />
+              {/* <p className="legend">Legend 1</p> */}
+            </div>
           ))}
-        </ImageList>
+        </Carousel>
+
+        <Divider sx={{ marginBottom: '20px' }} />
+
+        <Grid container>
+          <Grid item xs={12} sx={{
+            margin: '20px 0'
+          }}>
+            <Typography variant="h6">Description</Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam in inventore perferendis vero quia excepturi delectus iusto rem dolorum reiciendis tempore, omnis expedita error modi voluptate eum ratione aut obcaecati! Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla ab modi itaque omnis ratione facere odit beatae vel! Quibusdam, nisi cupiditate magnam asperiores odio ipsum saepe vitae voluptatibus quia debitis.
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12} sx={{
+            margin: '40px 0 20px 0'
+          }}>
+            <Divider />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant="h6">Services</Typography>
+          </Grid>
+
+          <Grid item xs={12} >
+            <Box component='div' sx={{ margin: '20px 0 20px 0', display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+              <Typography variant="caption" component="div" >
+                <DirectionsCarIcon sx={{ width: '100%', margin: '0 auto' }} />
+                <p>Free Parking</p>
+              </Typography>
+              <Typography variant="caption" component="div" >
+                <PoolIcon sx={{ width: '100%', margin: '0 auto' }} />
+                <p>Pool</p>
+              </Typography>
+              <Typography variant="caption" component="div" >
+                <SignalWifi3BarIcon sx={{ width: '100%', margin: '0 auto' }} />
+                <p>Free WiFi</p>
+              </Typography>
+              <Typography variant="caption" component="div" >
+                <FitnessCenterIcon sx={{ width: '100%', margin: '0 auto' }} />
+                <p>Free WiFi</p>
+              </Typography>
+              <Typography variant="caption" component="div" >
+                <SpaIcon sx={{ width: '100%', margin: '0 auto' }} />
+                <p>Spa</p>
+              </Typography>
+              <Typography variant="caption" component="div" >
+                <LocalBarIcon sx={{ width: '100%', margin: '0 auto' }} />
+                <p>Bar</p>
+              </Typography>
+            </Box>
+          </Grid>
+
+
+
+        </Grid>
+
+        <Divider sx={{ margin: '70px 0 70px 0' }} />
+
 
         <form onSubmit={formik.handleSubmit}>
           <Box component='div'
@@ -145,7 +220,7 @@ function Rooms() {
                   display: 'flex',
                   justifyContent: 'center'
                 }}>
-                <Typography variant="body1">Information</Typography>
+                <Typography variant="body1">Reservation</Typography>
               </Grid>
               <Grid item xs={6}>
                 <TextField
@@ -353,10 +428,9 @@ function Rooms() {
             </Grid>
           </Box>
         </form>
-        <CreditCard />
 
       </Container>
-      <Button onClick={handleOpen}>Open modal</Button>
+      {/* <Button onClick={handleOpen}>Open modal</Button> */}
 
       <ModalConfirmation
         open={open}
