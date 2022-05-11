@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { useFormik } from "formik";
 import validationPrereservation from "./validations/validationPrereservation";
 
+
 // Components
 import {
   Container,
@@ -13,8 +14,12 @@ import {
   Button,
   CircularProgress,
   Box,
-  Divider
+  Divider,
+  ThemeProvider
 } from '@mui/material'
+
+import theme from '../../theme'
+
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
@@ -77,7 +82,7 @@ function Rooms() {
       cvc: ''
     },
     validationSchema: validationPrereservation,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       // console.log(values)
       try {
         setLoading(true);
@@ -88,7 +93,11 @@ function Rooms() {
         });
         const data = await res.json();
         // console.log(data)
+        resetForm();
         handleOpen()
+        setTimeout(() => {
+          handleClose()
+        }, 4000);
         setLoading(false)
 
       } catch (error) {
@@ -196,238 +205,241 @@ function Rooms() {
         <Divider sx={{ margin: '70px 0 70px 0' }} />
 
 
-        <form onSubmit={formik.handleSubmit}>
-          <Box component='div'
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: '20px'
-            }}
-          >
+        <ThemeProvider theme={theme}>
 
-            <Grid container spacing={2}
+          <form onSubmit={formik.handleSubmit}>
+            <Box component='div'
               sx={{
-                width: '500px',
-                border: '1px solid #d2d2d2',
-                padding: '20px 35px 20px 20px',
-                boxShadow: '15px 13px 13px -18px rgba(0,0,0,0.75)',
-                borderRadius: '10px'
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: '20px'
               }}
             >
-              <Grid item xs={12}
+
+              <Grid container spacing={2}
                 sx={{
-                  display: 'flex',
-                  justifyContent: 'center'
-                }}>
-                <Typography variant="body1">Reservation</Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="name"
-                  name="name"
-                  label="name"
-                  type="name"
-                  value={formik.values.name}
-                  onChange={formik.handleChange}
-                  error={formik.touched.name && Boolean(formik.errors.name)}
-                  helperText={formik.touched.name && formik.errors.name}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="lastName"
-                  name="lastName"
-                  label="lastName"
-                  type="lastName"
-                  value={formik.values.lastName}
-                  onChange={formik.handleChange}
-                  error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                  helperText={formik.touched.lastName && formik.errors.lastName}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="cellphone"
-                  name="cellphone"
-                  label="cellphone"
-                  type="cellphone"
-                  value={formik.values.cellphone}
-                  onChange={formik.handleChange}
-                  error={formik.touched.cellphone && Boolean(formik.errors.cellphone)}
-                  helperText={formik.touched.cellphone && formik.errors.cellphone}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="email"
-                  name="email"
-                  label="Email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                />
-              </Grid>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <Grid item xs={6} >
-                  <DatePicker
-                    id="checkin"
-                    name="checkin"
-                    label="Check-in"
-                    value={formik.values.checkin}
-                    minDate={new Date()}
-                    onChange={(newValue) => {
-                      formik.setFieldValue("checkin", newValue);
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        fullWidth
-                        size="small"
-                        {...params}
-                        error={formik.touched.checkin && Boolean(formik.errors.checkin)}
-                        helperText={formik.touched.checkin && formik.errors.checkin}
-                      />
-                    )}
-                  />
+                  width: '500px',
+                  border: '1px solid #d2d2d2',
+                  padding: '20px 35px 20px 20px',
+                  boxShadow: '15px 13px 13px -18px rgba(0,0,0,0.75)',
+                  borderRadius: '10px'
+                }}
+              >
+                <Grid item xs={12}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center'
+                  }}>
+                  <Typography variant="body1">Reservation</Typography>
                 </Grid>
-              </LocalizationProvider>
-
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <Grid item xs={6} >
-                  <DatePicker
-                    id="checkout"
-                    name="checkout"
-                    label="Check-out"
-                    value={formik.values.checkout}
-                    minDate={formik.values.checkin !== '' ? formik.values.checkin : ''}
-                    onChange={(newValue) => {
-                      formik.setFieldValue("checkout", newValue);
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        fullWidth
-                        size="small"
-                        {...params}
-                        error={formik.touched.checkout && Boolean(formik.errors.checkout)}
-                        helperText={formik.touched.checkout && formik.errors.checkout}
-                      />
-                    )}
-                  />
-                </Grid>
-              </LocalizationProvider>
-
-
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  disabled
-                  size="small"
-                  id="totalPayment"
-                  name="totalPayment"
-                  label="Total Payment"
-                  value={formik.values.totalPayment}
-                  onChange={formik.handleChange}
-                  error={formik.touched.totalPayment && Boolean(formik.errors.totalPayment)}
-                  helperText={formik.touched.totalPayment && formik.errors.totalPayment}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <Divider variant="middle" />
-              </Grid>
-              <Grid item xs={12}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center'
-                }}>
-                <Typography variant="body1">Credit Card Details</Typography>
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="cardNumber"
-                  name="cardNumber"
-                  label="Card Number"
-                  type='number'
-                  value={formik.values.cardNumber}
-                  onChange={formik.handleChange}
-                  error={formik.touched.cardNumber && Boolean(formik.errors.cardNumber)}
-                  helperText={formik.touched.cardNumber && formik.errors.cardNumber}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="nameOnCard"
-                  name="nameOnCard"
-                  label="Name"
-                  value={formik.values.nameOnCard}
-                  onChange={formik.handleChange}
-                  error={formik.touched.nameOnCard && Boolean(formik.errors.nameOnCard)}
-                  helperText={formik.touched.nameOnCard && formik.errors.nameOnCard}
-                />
-              </Grid>
-
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Grid item xs={6}>
-
-                  <DatePicker
-                    views={['year', 'month']}
-                    id="expDate"
-                    name="expDate"
-                    label="Year and Month"
-                    value={formik.values.expDate}
-                    onChange={(newValue) => {
-                      formik.setFieldValue("expDate", newValue);
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        fullWidth
-                        size="small"
-                        {...params}
-                        error={formik.touched.expDate && Boolean(formik.errors.expDate)}
-                        helperText={formik.touched.expDate && formik.errors.expDate}
-                      />
-                    )}
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="name"
+                    name="name"
+                    label="name"
+                    type="name"
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
+                    error={formik.touched.name && Boolean(formik.errors.name)}
+                    helperText={formik.touched.name && formik.errors.name}
                   />
                 </Grid>
-              </LocalizationProvider>
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="lastName"
+                    name="lastName"
+                    label="lastName"
+                    type="lastName"
+                    value={formik.values.lastName}
+                    onChange={formik.handleChange}
+                    error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                    helperText={formik.touched.lastName && formik.errors.lastName}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="cellphone"
+                    name="cellphone"
+                    label="cellphone"
+                    type="cellphone"
+                    value={formik.values.cellphone}
+                    onChange={formik.handleChange}
+                    error={formik.touched.cellphone && Boolean(formik.errors.cellphone)}
+                    helperText={formik.touched.cellphone && formik.errors.cellphone}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="email"
+                    name="email"
+                    label="Email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                  />
+                </Grid>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <Grid item xs={6} >
+                    <DatePicker
+                      id="checkin"
+                      name="checkin"
+                      label="Check-in"
+                      value={formik.values.checkin}
+                      minDate={new Date()}
+                      onChange={(newValue) => {
+                        formik.setFieldValue("checkin", newValue);
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          fullWidth
+                          size="small"
+                          {...params}
+                          error={formik.touched.checkin && Boolean(formik.errors.checkin)}
+                          helperText={formik.touched.checkin && formik.errors.checkin}
+                        />
+                      )}
+                    />
+                  </Grid>
+                </LocalizationProvider>
 
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  id="cvc"
-                  name="cvc"
-                  label="CVC"
-                  value={formik.values.cvc}
-                  onChange={formik.handleChange}
-                  error={formik.touched.cvc && Boolean(formik.errors.cvc)}
-                  helperText={formik.touched.cvc && formik.errors.cvc}
-                />
-              </Grid>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <Grid item xs={6} >
+                    <DatePicker
+                      id="checkout"
+                      name="checkout"
+                      label="Check-out"
+                      value={formik.values.checkout}
+                      minDate={formik.values.checkin !== '' ? formik.values.checkin : ''}
+                      onChange={(newValue) => {
+                        formik.setFieldValue("checkout", newValue);
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          fullWidth
+                          size="small"
+                          {...params}
+                          error={formik.touched.checkout && Boolean(formik.errors.checkout)}
+                          helperText={formik.touched.checkout && formik.errors.checkout}
+                        />
+                      )}
+                    />
+                  </Grid>
+                </LocalizationProvider>
 
-              <Grid item xs={6}>
-                <Button color="primary" variant="contained" fullWidth type="submit" >
-                  {loading ? <CircularProgress color="inherit" size={24} /> : 'Confirm'}
-                </Button>
+
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    disabled
+                    size="small"
+                    id="totalPayment"
+                    name="totalPayment"
+                    label="Total Payment"
+                    value={formik.values.totalPayment}
+                    onChange={formik.handleChange}
+                    error={formik.touched.totalPayment && Boolean(formik.errors.totalPayment)}
+                    helperText={formik.touched.totalPayment && formik.errors.totalPayment}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Divider variant="middle" />
+                </Grid>
+                <Grid item xs={12}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center'
+                  }}>
+                  <Typography variant="body1">Credit Card Details</Typography>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="cardNumber"
+                    name="cardNumber"
+                    label="Card Number"
+                    type='number'
+                    value={formik.values.cardNumber}
+                    onChange={formik.handleChange}
+                    error={formik.touched.cardNumber && Boolean(formik.errors.cardNumber)}
+                    helperText={formik.touched.cardNumber && formik.errors.cardNumber}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="nameOnCard"
+                    name="nameOnCard"
+                    label="Name"
+                    value={formik.values.nameOnCard}
+                    onChange={formik.handleChange}
+                    error={formik.touched.nameOnCard && Boolean(formik.errors.nameOnCard)}
+                    helperText={formik.touched.nameOnCard && formik.errors.nameOnCard}
+                  />
+                </Grid>
+
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <Grid item xs={6}>
+
+                    <DatePicker
+                      views={['year', 'month']}
+                      id="expDate"
+                      name="expDate"
+                      label="Year and Month"
+                      value={formik.values.expDate}
+                      onChange={(newValue) => {
+                        formik.setFieldValue("expDate", newValue);
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          fullWidth
+                          size="small"
+                          {...params}
+                          error={formik.touched.expDate && Boolean(formik.errors.expDate)}
+                          helperText={formik.touched.expDate && formik.errors.expDate}
+                        />
+                      )}
+                    />
+                  </Grid>
+                </LocalizationProvider>
+
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    id="cvc"
+                    name="cvc"
+                    label="CVC"
+                    value={formik.values.cvc}
+                    onChange={formik.handleChange}
+                    error={formik.touched.cvc && Boolean(formik.errors.cvc)}
+                    helperText={formik.touched.cvc && formik.errors.cvc}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Button color="primary" variant="contained" fullWidth type="submit" >
+                    {loading ? <CircularProgress color="inherit" size={24} /> : 'Confirm'}
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
-          </Box>
-        </form>
+            </Box>
+          </form>
+        </ThemeProvider>
 
       </Container>
       {/* <Button onClick={handleOpen}>Open modal</Button> */}

@@ -13,9 +13,9 @@ function Home() {
         {/* <Typography color="primary">This is the page home</Typography>
         <Button color="success">Hola Mundo</Button>
         <Typography sx={{ color: "#a21" }} >This is the page home</Typography> */}
+        <NavBarUser />
+        <BodyUser />
       </ThemeProvider>
-      <NavBarUser />
-      <BodyUser />
     </>
   )
 }
