@@ -27,6 +27,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 // Icons
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TwitterIcon from '@mui/icons-material/Twitter';
 
 // Components
 import CardUser from './CardUser'
@@ -273,22 +276,17 @@ function BodyUser() {
         </Box>
 
         {/* About Us */}
-        <Box component='section'
+        <Box component='section' id='about'
           sx={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            // flexDirection: 'column',
-            // height: '200px',
-            marginTop: '100px',
+            marginTop: '200px',
           }}
         >
           <Box component='div'
             sx={{
               width: '80vw',
-              // border: '1px black solid'
-              // marginTop: '10px',
-              // display: 'flex',
             }}
           >
             <Typography variant="h4" component="div">About us</Typography>
@@ -316,24 +314,40 @@ function BodyUser() {
 
       </main>
 
-      <Box component='footer'
+      <Box component='footer' id='footer'
         sx={{
-          height: "80px",
+          height: "380px",
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          marginTop: '400px',
+          bgcolor: '#673ab7',
+          color: '#fff'
         }}
       >
         <Box component='div'
           sx={{
             width: '80vw',
+            height: '80%',
             // border: '1px black solid'
             // marginTop: '10px',
-            // display: 'flex',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-around',
+            alignItems: 'end',
           }}
         >
           <Typography variant="h4" component="div">
-            Footer
+            Hotel la Posada Real
+          </Typography>
+          <Box component='div'>
+            <FacebookIcon sx={{ marginRight: '20px' }} />
+            <InstagramIcon sx={{ marginRight: '20px' }} />
+            <TwitterIcon sx={{ marginRight: '20px' }} />
+          </Box>
+
+          <Typography variant='body1' component="div">
+            © 2022 posadaReal.com is an Expedia Group company. All rights reserved.
           </Typography>
         </Box>
 

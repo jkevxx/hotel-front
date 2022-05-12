@@ -50,10 +50,10 @@ function NavBarUser() {
               }}
             >
               {/* <Button color="dark" component={Link} to='/about'> */}
-              <Button color="dark" component={Link} to='#aboutus  '>
+              <Button color="dark" component='a' href='#about'>
                 About us
               </Button >
-              <Button color="dark">
+              <Button color="dark" component='a' href='#footer'>
                 Contact Us
               </Button >
 
@@ -62,6 +62,7 @@ function NavBarUser() {
 
         </Toolbar>
       </AppBar>
+
     </>
   )
 }

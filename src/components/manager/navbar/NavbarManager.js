@@ -1,10 +1,11 @@
+import React from 'react'
 import { AppBar, Box, Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, ThemeProvider, Toolbar, Typography } from '@mui/material'
 
-import MailIcon from '@mui/icons-material/Mail'
-import InboxIcon from '@mui/icons-material/Inbox';
-import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 import theme from '../../../theme'
+
+import { admin } from './routesManager'
 
 const drawerWidth = 240;
 
@@ -31,28 +32,17 @@ function NavbarManager() {
           <Toolbar />
           <Box sx={{ overflow: 'auto' }}>
             <List>
-              {['Dashboard', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-            </List>
-            <Divider />
-            <List>
-              {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
+              {admin.map((value, index) => (
+                <ListItem button component={NavLink} to={value.route} key={index}>
+                  <ListItemIcon>{value.icon}</ListItemIcon>
+                  <ListItemText primary={value.nameRoute} />
                 </ListItem>
               ))}
             </List>
           </Box>
         </Drawer>
+
+
       </ThemeProvider>
 
     </>

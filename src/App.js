@@ -6,7 +6,7 @@ import Rooms from './pages/client/Rooms'
 
 import NotFoundPage from './pages/NotFoundPage'
 import Dashboard from "./pages/manager/dashboard/Dashboard";
-
+import Reservations from "./pages/manager/reservation/Reservations";
 
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/reservations" element={<Reservations />} />
         {/* <Route path="/about" element={<AboutUs />} /> */}
         <Route path="/rooms/:TypeRoomId" element={<Rooms />} />
         <Route path="*" element={<NotFoundPage />} />
